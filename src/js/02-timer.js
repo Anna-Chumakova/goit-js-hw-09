@@ -8,7 +8,20 @@ const daysEl = document.querySelector("[data-days]");
 const hoursEl = document.querySelector("[data-hours]");
 const minutesEl = document.querySelector("[data-minutes]");
 const secondsEl = document.querySelector("[data-seconds]");
-
+let selectedNewDates = []; 
+ startBtnEl.addEventListener("click", onTimer);
+    
+    function onTimer () {
+        startBtnEl.disabled = true;
+        let timerId = setInterval(() => {
+            let deltaTime = selectedNewDates[0] - Date.now();
+            
+             if (deltaTime < 1000) {
+                 clearInterval(timerId);
+               }
+            fillDate(deltaTime);
+        }, 1000);        
+    };         
 startBtnEl.disabled = true; 
 
 const onClose = function (selectedDates) {
@@ -16,21 +29,8 @@ const onClose = function (selectedDates) {
     if (selectedDates[0] <= Date.now()) {
             return Notify.info("Please choose a date in the future");
        }
-startBtnEl.disabled = false;        
-
-startBtnEl.addEventListener("click", onTimer);
-    
-    function onTimer () {
-        
-        let timerId = setInterval(() => {
-            let deltaTime = selectedDates[0] - Date.now();
-             if (deltaTime < 1000) {
-                 clearInterval(timerId);
-               }
-            fillDate(deltaTime);
-        }, 1000);        
-    };      
-    
+    startBtnEl.disabled = false;
+    selectedNewDates = selectedDates;
 };
           
 const options = {
