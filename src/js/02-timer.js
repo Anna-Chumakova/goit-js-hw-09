@@ -21,8 +21,12 @@ startBtnEl.disabled = false;
 startBtnEl.addEventListener("click", onTimer);
     
     function onTimer () {
-        setInterval(() => {
+        
+        let timerId = setInterval(() => {
             let deltaTime = selectedDates[0] - Date.now();
+             if (deltaTime < 1000) {
+                 clearInterval(timerId);
+               }
             fillDate(deltaTime);
         }, 1000);        
     };      
